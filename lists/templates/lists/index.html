@@ -1,0 +1,93 @@
+{% load static %}
+<html>
+    <body>
+        <h1>To-Do List</h1>
+        <title>To-Do list</title>
+
+        <form method="post" action="{% url 'lists:index' %}" id="add_item_form">
+            {% csrf_token %}
+            <input type="text" id="add_item_textbox" placeholder="Enter To-Do item.">
+        </form>
+
+        <!--{% if complete_list %}-->
+        <form method="post">
+            {% csrf_token %}
+            <table id="item_table">
+                {% for list in complete_list %}
+                    <tr id="row_{{ list.auto_increment_id }}">
+                        <td><label id="lable_{{ list.auto_increment_id }}">{{ list.item }}</label></td>
+                        <td><button id="delete_button_{{ list.auto_increment_id }}" class="delete">Delete</button></td>
+                        <td><button id="update_button_{{ list.auto_increment_id }}" class="update">Update</button></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </form>
+        <!--{% endif %}-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script type="text/javascript">
+        function eventHandlers()
+        {
+            $("#add_item_form").submit
+            (
+                function(event)
+                {
+                    event.preventDefault();
+                    var item_text = $("#add_item_textbox").val();
+                    $.ajax
+                    ({
+                        url: '',
+                        method: 'POST',
+                        data: {
+                            'item_text': item_text,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        },
+                        dataType: 'json',
+                        success: function(data)
+                        {
+                            $('<tr>',{
+                                'html': '<td>'+data.added_item_text+'</td><td><button>Delete</button></td><td><button>Update</button></td>'
+                            }
+                            ).appendTo('#item_table');
+                            $("#add_item_textbox").val('');
+                        }
+
+                    });
+                }
+            );
+            $("button.delete").click
+            (
+                function(event)
+                {
+                    event.preventDefault();
+                    var delete_button_id = this.id;
+                    $.ajax
+                    ({
+                        url: 'delete',
+                        method: 'POST',
+                        data:{
+                            'delete_button_id': delete_button_id,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        },
+                        dataType: 'json',
+                        success: function(data)
+                        {
+                            $('#'+data.row_to_delete).remove();
+                        }
+                    });
+                }
+            );
+            $("button.update").click
+            (
+                function(event)
+                {
+                    event.preventDefault();
+                    var editableArea = $("<input type='text' id='update_area'>");
+
+                }
+            );
+        }
+
+        $(document).ready(eventHandlers);
+        </script>
+    </body>
+</html>
