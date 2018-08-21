@@ -24,7 +24,7 @@ def todo_list(request, pk=None):
             return JsonResponse(todo, safe=False)
         else:
             todos = ToDoItem.objects.values()
-            return JsonResponse(list(todos), safe=False)
+            return JsonResponse({'list': list(todos)}, safe=False)
 
     elif request.method == 'POST':
         try:
@@ -38,7 +38,7 @@ def todo_list(request, pk=None):
             test.__dict__.pop('_state', None)
             return JsonResponse(test.__dict__)
         except ValueError:
-            return Response({"date":"Date format should be in DD/MM/YYYY"}, status.HTTP_400_BAD_REQUEST)
+            return Response({"date": "Date format should be in DD/MM/YYYY"}, status.HTTP_400_BAD_REQUEST)
 
     elif pk:
         try:
@@ -51,12 +51,19 @@ def todo_list(request, pk=None):
             return Response(status.HTTP_204_NO_CONTENT)
 
         elif request.method == 'PATCH':
-            update_value = request.data.dict()
-            if update_value['done'] == 'true':
-                todo.done=True
+            update_value = request.data
+            if update_value['done'] is True:
+                todo.done = True
                 todo.save()
                 return Response(status.HTTP_204_NO_CONTENT)
             return Response(status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET',])
+def done_list(request):
+    if request.method == 'GET':
+        done_todos = ToDoItem.objects.filter(done=True).values()
+        return JsonResponse({'list': list(done_todos)}, safe=True)
 
 
 
