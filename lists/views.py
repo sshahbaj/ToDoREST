@@ -23,7 +23,7 @@ def todo_list(request, pk=None):
             todo.pop('_state', None)
             return JsonResponse(todo, safe=False)
         else:
-            todos = ToDoItem.objects.values()
+            todos = ToDoItem.objects.exclude(done=True).order_by('date').values()
             return JsonResponse({'list': list(todos)}, safe=False)
 
     elif request.method == 'POST':
@@ -62,12 +62,8 @@ def todo_list(request, pk=None):
 @api_view(['GET',])
 def done_list(request):
     if request.method == 'GET':
-        done_todos = ToDoItem.objects.filter(done=True).values()
+        done_todos = ToDoItem.objects.filter(done=True).order_by('date').values()
         return JsonResponse({'list': list(done_todos)}, safe=True)
-
-
-
-
 
 
 
