@@ -5,5 +5,7 @@ app_name = 'lists'
 urlpatterns = [
     path('', views.todo_list, name='index-list'),
     path('<int:pk>/', views.todo_list, name='index-detail'),
-    path('done/', views.done_list, name='done-list'),
+    path('login/', views.login, name='login'),
+    path('signup/', views.signup, name='signup')
+    # path('done/', views.done_list, name='done-list'),
 ]
