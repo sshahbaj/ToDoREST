@@ -1,3 +1,6 @@
 from django.test import TestCase
 
-# Create your tests here.
+
+class TestFoobar(TestCase):
+    def test_should_pass(self):
+        self.assertTrue(True)
