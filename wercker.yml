@@ -1,6 +1,6 @@
 box: python:3.6-slim
 
-dev:
+build:
   steps:
     - script:
         name: export django settings module
