@@ -1,0 +1,28 @@
+box: python:3.6-slim
+
+dev:
+  steps:
+    - script:
+        name: export django settings module
+        code: |
+          export DJANGO_SETTINGS_MODULE=ToDo.settings
+    - script:
+        name: pip install requirements (with cache)
+        code: |
+          pip install -r requirements
+    - script:
+        name: Django make migrations
+        code: |
+          python manage.py makemigrations
+    - script:
+        name: wait...
+        code: |
+          sleep 10
+    - script:
+        name: Django aplly migrations
+        code: |
+          python manage.py migrate
+    - script:
+        name: Django run tests
+        code: |
+          python manage.py test
