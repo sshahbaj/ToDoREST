@@ -1,4 +1,4 @@
-box: python:3.7.4-alpine
+box: python:3.7-slim-buster
 
 build:
   steps:
@@ -7,11 +7,13 @@ build:
         code: |
           export DJANGO_SETTINGS_MODULE=ToDo.settings
     - script:
-        name: Install psycopg2 dependencies
-        code: apk update && \
-              apk add --virtual build-deps gcc python-dev musl-dev && \
-              apk add postgresql-dev && \
-              apk add netcat-openbsd
+        name: install psycopg2 dependencies
+        code: |
+          apt-get update && apt-get install -y build-essential && apt-get install -y libpq-dev && apt-get install -y gettext
+    - script:
+        name: pip install requirements
+        code: |
+          pip install -r requirements.txt
     - script:
         name: Django apply migrations
         code: |
