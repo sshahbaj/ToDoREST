@@ -6,7 +6,7 @@ build:
         name: export django settings module
         code: |
           export DJANGO_SETTINGS_MODULE=ToDo.settings
-    -script:
+    - script:
         name: Install psycopg2 dependencies
         code: apt-get install -y libpq-dev
     - script:
