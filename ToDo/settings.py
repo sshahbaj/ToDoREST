@@ -122,3 +122,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+import os
+if '/app' in os.environ['HOME']:
+    import django_heroku
+    django_heroku.settings(locals())
