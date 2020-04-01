@@ -1,4 +1,4 @@
-box: python:3.6-alpine
+box: python:3.7.4-alpine
 
 build:
   steps:
