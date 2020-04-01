@@ -7,9 +7,6 @@ build:
         code: |
           export DJANGO_SETTINGS_MODULE=ToDo.settings
     - script:
-        name: Install psycopg2 dependencies
-        code: apt-get install -y libpq-dev
-    - script:
         name: pip install requirements
         code: |
           pip install -r requirements.txt
