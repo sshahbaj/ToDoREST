@@ -7,22 +7,25 @@ build:
         code: |
           export DJANGO_SETTINGS_MODULE=ToDo.settings
     - script:
-        name: pip install requirements (with cache)
+        name: pip install requirements
         code: |
           pip install -r requirements.txt
     - script:
-        name: Django make migrations
-        code: |
-          python manage.py makemigrations
-    - script:
-        name: wait...
-        code: |
-          sleep 10
-    - script:
-        name: Django aplly migrations
+        name: Django apply migrations
         code: |
           python manage.py migrate
     - script:
         name: Django run tests
         code: |
           python manage.py test
+
+deploy-staging:
+  steps:
+    - heroku-deploy:
+        key: $HEROKU_KEY
+        user: $HEROKU_USER
+        app-name: $HEROKU_APP_NAME
+
+    - script:
+        name: Django apply migrations
+        code: heroku run python manage.py migrate
