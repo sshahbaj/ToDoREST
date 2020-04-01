@@ -33,4 +33,4 @@ deploy-staging:
 
     - script:
         name: Django apply migrations
-        code: heroku run python manage.py migrate
+        code: heroku run --app $HEROKU_APP_NAME python manage.py migrate
