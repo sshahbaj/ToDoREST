@@ -1,4 +1,10 @@
 box: python:3.7-slim-buster
+services:
+    - id: mdillon/postgis
+      env:
+        POSTGRES_DB: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: qwerty1996
 
 build:
   steps:
@@ -9,7 +15,7 @@ build:
     - script:
         name: install psycopg2 dependencies
         code: |
-          apt-get update && apt-get install -y build-essential && apt-get install -y libpq-dev
+          apt-get update && apt-get install -y build-essential && apt-get install -y libpq-dev && apt-get -y install gdal-bin
     - script:
         name: pip install requirements
         code: |
