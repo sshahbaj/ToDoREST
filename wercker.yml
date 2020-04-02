@@ -18,7 +18,9 @@ build:
           apt-get update && apt-get install -y build-essential && apt-get install -y libpq-dev && apt-get -y install gdal-bin
     - script:
         name: env
-        code: env
+        code: |
+          export DB_HOST=$POSTGIS_PORT_5432_TCP_ADDR
+          env
     - script:
         name: pip install requirements
         code: |
